@@ -1,0 +1,4 @@
+table
+chair
+desk lamp
+telephone
