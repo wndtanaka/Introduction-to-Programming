@@ -11,6 +11,11 @@ def calc(ns1, op, ns2):
     elif op == 'd':
         return ns1 / ns2
 
+def permutations(numbers):
+    perms = []
+    for p in itertools.permutations(numbers):
+        perms.append(p)
+    return perms
 
 def nums(numbers, amount):
     perms = []
@@ -26,21 +31,55 @@ def ops(amount):
     return operations
 
 
-def check(numbers):
-    for ns in nums(numbers):
-        for op in ops():
-            if (op[0] == 'd' or op[1] == 'd' or op[2] == 'd') and (
-                    int(ns[1]) == 0 or int(ns[2]) == 0 or int(ns[3]) == 0):
-                continue
-            result = int(ns[0])
-            result = calc(result, op[0], int(ns[1]))
-            result = calc(result, op[1], int(ns[2]))
-            result = calc(result, op[2], int(ns[3]))
-            if result == 40:
-                return True
-    # else return false
-    return False
+# def check(numbers):
+#     for ns in nums(numbers):
+#         for op in ops():
+#             if (op[0] == 'd' or op[1] == 'd' or op[2] == 'd') and (
+#                     int(ns[1]) == 0 or int(ns[2]) == 0 or int(ns[3]) == 0):
+#                 continue
+#             result = int(ns[0])
+#             result = calc(result, op[0], int(ns[1]))
+#             result = calc(result, op[1], int(ns[2]))
+#             result = calc(result, op[2], int(ns[3]))
+#             if result == 40:
+#                 return True
+#     # else return false
+#     return False
 
+
+def check(ls):
+    x = []
+    counter = 0
+    for num in ls:
+        ls[counter] = int(num)
+        counter += 1
+    line = list_split(ls,6)
+    for i in line:
+        #print(i)
+        if sum(i) != 21:
+            return False
+    total_column = 0
+    for row in range(0,6):
+        for column in range(0,6):
+            total_column += line[column][row]
+        #print(total_column)
+        if total_column != 21:
+            return False
+        total_column = 0
+    return True
+
+
+
+def list_split(seq, num):
+    avg = len(seq) / float(num)
+    out = []
+    last = 0.0
+
+    while last < len(seq):
+        out.append(seq[int(last):int(last + avg)])
+        last += avg
+
+    return out
 
 # perms = nums('123456')
 # for i in perms:
@@ -61,13 +100,15 @@ cell_labels = ['80*', '3', '5-', '2/', '11+', '1-', '9*', '2', '3-', '30*', '11+
                '1']
 line_counter = 0
 possibility = {}
-result = []
+correct = False
 
 # to count total number of labels
 total_labels = []
+default_labels = []
 for key in cell_numbers.values():
     for i in range(len(key)):
         total_labels.append(key[i])
+        default_labels.append(key[i])
 
 # while line_counter < 6:
 #     label = input()
@@ -123,28 +164,53 @@ for i in range(len(cell_labels)):
                 break
             if abs(total) == num:
                 if i not in possibility:
-                    possibility[i] = [x]
+                    if operator == '/':
+                        possibility[i] = [x]
+                        possibility[i].append([x[1],x[0]])
+                    else:
+                        possibility[i] = [x]
                 else:
+                    if operator == '/':
+                        possibility[i].append([x[1], x[0]])
                     possibility[i].append(x)
+
     else:
         num = int(cell_labels[i])
         if i not in possibility:
-            possibility[i] = num
-#print(total_labels)
+            possibility[i] = [num]
+
 for key in possibility:
     counter = 0
-    if type(possibility[key]) == int:
+    if len(possibility[key]) == 1:
         for num in total_labels:
             if num == key:
-                total_labels[total_labels.index(num)] = str(possibility[key])
+                total_labels[total_labels.index(num)] = str(possibility[key][0])
 for key in possibility:
     for num in total_labels:
         if num == key:
             iter1 = 0
             iter2 = 0
             while iter1 < label_count[key]:
-                while iter2 < len(possibility[key][iter1]):
+                while len(possibility[key]) > 1 and iter2 < len(possibility[key][iter1]):
                     total_labels[total_labels.index(num)] = possibility[key][iter1][iter2]
                     iter2 += 1
                 iter1 += 1
+
+# while not correct:
+# for key in possibility:
+#     counter = 0
+#     if len(possibility[key]) == 1:
+#         for num in total_labels:
+#             if num == key:
+#                 total_labels[total_labels.index(num)] = str(possibility[key][0])
+poss_one = []
+for each in possibility:
+    if possibility[each] == 1:
+        poss_one.append(possibility[each])
+    else:
+        poss_one.append(possibility[each][0])
+#print(total_labels)
+#print(check([5,4,3,1,6,2,4,6,5,2,3,1,3,2,1,4,5,6,1,3,6,5,2,4,6,1,2,3,4,5,2,5,4,6,1,3]))
+print(check(total_labels))
 print(total_labels)
+print(default_labels)
