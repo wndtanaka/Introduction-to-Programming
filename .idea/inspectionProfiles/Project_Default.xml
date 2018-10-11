@@ -1,6 +1,9 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="PyChainedComparisonsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoreConstantInTheMiddle" value="true" />
+    </inspection_tool>
     <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ourVersions">
         <value>
@@ -15,6 +18,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="Week_5.triforce.bslash" />
+          <option value="Assignments.Firebot.firebot.simulation" />
         </list>
       </option>
     </inspection_tool>
