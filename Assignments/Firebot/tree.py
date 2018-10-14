@@ -5,7 +5,7 @@ class Tree:
         self.on_fire = False
         self.alive = True
         self.fire_level = 0
-        pass
+        self.wind_affected = False
 
     def get_height(self):
         return self.height
@@ -20,10 +20,24 @@ class Tree:
 
     def burn_tree(self):
         self.on_fire = True
-        self.fire_level += 1
+        if self.fire_level < 9:
+            self.fire_level += 1
+        self.wind_affected = False
 
     def get_fire_level(self):
         if not self.on_fire:
             return self.height
         else:
             return self.fire_level
+
+    def extinguish_fire(self):
+        self.fire_level = 0
+        self.on_fire = False
+
+    def damage_tree(self):
+        if self.fire_level >= 9 and self.alive:
+            self.height -= 1
+        if self.height <= 0:
+            self.alive = False
+            self.on_fire = False
+            self.fire_level = 0
