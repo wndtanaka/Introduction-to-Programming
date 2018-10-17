@@ -188,7 +188,7 @@ EXTINGUISH <region>\n''')
 
 try:
     if len(sys.argv) != 4:
-        raise AssertionError
+        raise ValueError
     seed = int(sys.argv[1])  # random seed tree generator
     width = int(sys.argv[2])  # width of the land
     height = int(sys.argv[3])  # height of the land
