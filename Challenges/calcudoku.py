@@ -49,19 +49,18 @@ def ops(amount):
 
 def checker(ls):
     counter = 0
-    for num in ls:
-        ls[counter] = int(num)
+    tester = ls
+    for num in tester:
+        tester[counter] = int(num)
         counter += 1
-    line = list_split(ls,6)
+    line = list_split(tester,6)
     for i in line:
-        #print(i)
         if sum(i) != 21:
             return False
     total_column = 0
     for row in range(0,6):
         for column in range(0,6):
             total_column += line[column][row]
-        #print(total_column)
         if total_column != 21:
             return False
         total_column = 0
@@ -79,36 +78,30 @@ def check(ls):
     for i in comb:
         result[counter] = i
         counter += 1
-    print(result)
+    return converter(result)
 
 def pairs(*lists):
     for t in itertools.combinations(lists, len(lists)):
         for pair in itertools.product(*t):
-            check(pair)
-            #continue
-            yield pair
+            if check(pair):
+                yield pair
 
 def converter(ls):
+    result = total_labels.copy()
     for key in ls:
         counter = 0
-        if len(test_case[key]) == 1:
-            for num in total_labels:
+        if len(ls[key]) == 1:
+            for num in result:
                 if num == key:
-                    total_labels[total_labels.index(num)] = str(ls[key][0])
+                    result[result.index(num)] = str(ls[key][0])
     for key in ls:
-        for num in total_labels:
+        index = 0
+        for num in result:
             if num == key:
-                iter1 = 0
-                iter2 = 0
-                while iter1 < label_count[key]:
-                    while len(test_case[key]) > 1 and iter2 < len(ls[key][iter1]):
-                        total_labels[total_labels.index(num)] = ls[key][iter1][iter2]
-                        iter2 += 1
-                    iter1 += 1
-    if checker(total_labels):
-        return True
-    else:
-        False
+                result[result.index(num)] = ls[key][index]
+                index +=1
+    return checker(result)
+
 def list_split(seq, num):
     avg = len(seq) / float(num)
     out = []
@@ -216,7 +209,7 @@ for i in range(len(cell_labels)):
         num = int(cell_labels[i])
         if i not in possibility:
             possibility[i] = [num]
-test_case = {0: ['4', '4', '5'], 1: [3], 2: ['1', '6'], 3: ['2', '1'], 4: ['5', '6'], 5: ['1', '2'], 6: ['1', '3', '3'], 7: [2], 8: ['1', '4'], 9: ['6', '5'], 10: ['6', '5'], 11: ['6', '3'], 12: [6], 13: ['2', '2', '2'], 14: ['1', '6', '6'], 15: ['3', '5'], 16: ['5', '2'], 17: [1]}
+#test_case = {0: ['4', '4', '5'], 1: ['3'], 2: ['1', '6'], 3: ['2', '1'], 4: ['5', '6'], 5: ['1', '2'], 6: ['1', '3', '3'], 7: ['2'], 8: ['1', '4'], 9: ['6', '5'], 10: ['6', '5'], 11: ['6', '3'], 12: ['6'], 13: ['2', '2', '2'], 14: ['1', '6', '6'], 15: ['3', '5'], 16: ['5', '2'], 17: ['1']}
 # for key in test_case:
 #     counter = 0
 #     if len(test_case[key]) == 1:
@@ -233,8 +226,7 @@ test_case = {0: ['4', '4', '5'], 1: [3], 2: ['1', '6'], 3: ['2', '1'], 4: ['5', 
 #                     total_labels[total_labels.index(num)] = test_case[key][iter1][iter2]
 #                     iter2 += 1
 #                 iter1 += 1
-print(converter(test_case))
-# print(default_labels)
+
 a = possibility[0]
 b = possibility[1]
 c = possibility[2]
