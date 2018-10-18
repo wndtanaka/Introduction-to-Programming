@@ -47,8 +47,7 @@ def ops(amount):
 #     return False
 
 
-def check(ls):
-    x = []
+def checker(ls):
     counter = 0
     for num in ls:
         ls[counter] = int(num)
@@ -68,8 +67,48 @@ def check(ls):
         total_column = 0
     return True
 
+def check(ls):
+    comb = []
+    result = {}
+    counter = 0
+    for i in ls:
+        if type(i) != int:
+            comb.append(list(i))
+        else:
+            comb.append(list(str(i)))
+    for i in comb:
+        result[counter] = i
+        counter += 1
+    print(result)
 
+def pairs(*lists):
+    for t in itertools.combinations(lists, len(lists)):
+        for pair in itertools.product(*t):
+            check(pair)
+            #continue
+            yield pair
 
+def converter(ls):
+    for key in ls:
+        counter = 0
+        if len(test_case[key]) == 1:
+            for num in total_labels:
+                if num == key:
+                    total_labels[total_labels.index(num)] = str(ls[key][0])
+    for key in ls:
+        for num in total_labels:
+            if num == key:
+                iter1 = 0
+                iter2 = 0
+                while iter1 < label_count[key]:
+                    while len(test_case[key]) > 1 and iter2 < len(ls[key][iter1]):
+                        total_labels[total_labels.index(num)] = ls[key][iter1][iter2]
+                        iter2 += 1
+                    iter1 += 1
+    if checker(total_labels):
+        return True
+    else:
+        False
 def list_split(seq, num):
     avg = len(seq) / float(num)
     out = []
@@ -78,7 +117,6 @@ def list_split(seq, num):
     while last < len(seq):
         out.append(seq[int(last):int(last + avg)])
         last += avg
-
     return out
 
 # perms = nums('123456')
@@ -178,39 +216,43 @@ for i in range(len(cell_labels)):
         num = int(cell_labels[i])
         if i not in possibility:
             possibility[i] = [num]
-
-for key in possibility:
-    counter = 0
-    if len(possibility[key]) == 1:
-        for num in total_labels:
-            if num == key:
-                total_labels[total_labels.index(num)] = str(possibility[key][0])
-for key in possibility:
-    for num in total_labels:
-        if num == key:
-            iter1 = 0
-            iter2 = 0
-            while iter1 < label_count[key]:
-                while len(possibility[key]) > 1 and iter2 < len(possibility[key][iter1]):
-                    total_labels[total_labels.index(num)] = possibility[key][iter1][iter2]
-                    iter2 += 1
-                iter1 += 1
-
-# while not correct:
-# for key in possibility:
+test_case = {0: ['4', '4', '5'], 1: [3], 2: ['1', '6'], 3: ['2', '1'], 4: ['5', '6'], 5: ['1', '2'], 6: ['1', '3', '3'], 7: [2], 8: ['1', '4'], 9: ['6', '5'], 10: ['6', '5'], 11: ['6', '3'], 12: [6], 13: ['2', '2', '2'], 14: ['1', '6', '6'], 15: ['3', '5'], 16: ['5', '2'], 17: [1]}
+# for key in test_case:
 #     counter = 0
-#     if len(possibility[key]) == 1:
+#     if len(test_case[key]) == 1:
 #         for num in total_labels:
 #             if num == key:
-#                 total_labels[total_labels.index(num)] = str(possibility[key][0])
-poss_one = []
-for each in possibility:
-    if possibility[each] == 1:
-        poss_one.append(possibility[each])
-    else:
-        poss_one.append(possibility[each][0])
-#print(total_labels)
-#print(check([5,4,3,1,6,2,4,6,5,2,3,1,3,2,1,4,5,6,1,3,6,5,2,4,6,1,2,3,4,5,2,5,4,6,1,3]))
-print(check(total_labels))
-print(total_labels)
-print(default_labels)
+#                 total_labels[total_labels.index(num)] = str(test_case[key][0])
+# for key in test_case:
+#     for num in total_labels:
+#         if num == key:
+#             iter1 = 0
+#             iter2 = 0
+#             while iter1 < label_count[key]:
+#                 while len(test_case[key]) > 1 and iter2 < len(test_case[key][iter1]):
+#                     total_labels[total_labels.index(num)] = test_case[key][iter1][iter2]
+#                     iter2 += 1
+#                 iter1 += 1
+print(converter(test_case))
+# print(default_labels)
+a = possibility[0]
+b = possibility[1]
+c = possibility[2]
+d = possibility[3]
+e = possibility[4]
+f = possibility[5]
+g = possibility[6]
+h = possibility[7]
+i = possibility[8]
+j = possibility[9]
+k = possibility[10]
+l = possibility[11]
+m = possibility[12]
+n = possibility[13]
+o = possibility[14]
+p = possibility[15]
+q = possibility[16]
+r = possibility[17]
+
+for pair in pairs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r):
+    print(pair)
